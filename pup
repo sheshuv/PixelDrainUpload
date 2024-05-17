@@ -1,0 +1,26 @@
+#!/bin/bash                                            
+MINPARAMS=1
+PDSERVER="https://pixeldrain.com"
+                                                       if [ $# -lt $MINPARAMS ]; then
+  echo "Usage: $0 <file1> [file2 ...]"                   exit 1                                               fi                                                     
+for FILE in "$@"                                       do                                                       FULLPATH=$(realpath "$FILE")
+  if [ ! -f "$FULLPATH" ]; then
+    echo "File $FULLPATH does not exist."
+    continue                                             fi
+
+  FILENAME="${FULLPATH##*/}"
+  echo "Uploading $FILENAME ... "
+
+  RESPONSE=$(curl --progress-bar -F "file=@$FULLPATH" >
+  echo "Response: $RESPONSE"  # Debugging: Show the ra>
+                                                         FILEID=$(echo "$RESPONSE" | jq -r '.id')
+  echo "Extracted FILEID: $FILEID"  # Debugging: Show >
+
+  if [ -n "$FILEID" ] && [ "$FILEID" != "null" ]; then     echo "Your file URL: $PDSERVER/u/$FILEID"
+    echo "Your file URL: $PDSERVER/api/file/$FILEID"     else
+    echo "Failed to upload $FILENAME"
+  fi
+  echo ""
+done
+
+echo "" # Move cursor down when script finishes
