@@ -59,7 +59,7 @@ This repository contains a bash script `pup` that allows you to upload files to 
     Example:
 
     ```bash
-    ./pdlup out/target/product/benz/lineage-21.0-20240517-UNOFFICIAL-benz.zip
+    ./pup out/target/product/benz/lineage-21.0-20240517-UNOFFICIAL-benz.zip
     ```
 
 
