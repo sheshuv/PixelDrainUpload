@@ -5,36 +5,30 @@ TRANSFER_URL="https://git.io/file-transfer"
 TRANSFER_SCRIPT="./transfer"
 
 if [ $# -lt $MINPARAMS ]; then
-  echo "Usage: $0 <file1> [file2 ...]"
-  exit 1
+  echo "Usage: $0 <file1> [file2 ...]"                   exit 1
 fi
 
-# Download the transfer.sh script if it doesn't exist
-if [ ! -f "$TRANSFER_SCRIPT" ]; then
-  echo "Downloading transfer.sh script..."
+# Download the transfer.sh script if it doesn't exist  if [ ! -f "$TRANSFER_SCRIPT" ]; then                     echo "Downloading transfer.sh script..."
   curl -sL "$TRANSFER_URL" | sh
 fi
 
 for FILE in "$@"
-do
-  FULLPATH=$(realpath "$FILE")
-  if [ ! -f "$FULLPATH" ]; then
-    echo "File $FULLPATH does not exist."
-    continue
+do                                                       FULLPATH=$(realpath "$FILE")
+  if [ ! -f "$FULLPATH" ]; then                            echo "File $FULLPATH does not exist."                  continue
   fi
 
   FILENAME="${FULLPATH##*/}"
   echo "Uploading $FILENAME ... "
 
-  RESPONSE=$($TRANSFER_SCRIPT "$FULLPATH")
-  echo "Response: $RESPONSE"  # Show the response from the server
+  RESPONSE=$($TRANSFER_SCRIPT "$FULLPATH" | tee /dev/t>
+  URL=$(echo "$RESPONSE" | grep -o 'https://file.io/[a>
 
-  if [[ "$RESPONSE" == *transfer.sh* ]]; then
-    echo "Your file URL: $RESPONSE"
-  else
-    echo "Failed to upload $FILENAME"
-  fi
+#  if [[ "$URL" == https://file.io/* ]]; then
+#    echo "Your file URL: $URL"
+#  else
+#    echo "Failed to upload $FILENAME"
+#  fi
   echo ""
 done
 
-echo "" # Move cursor down when script finishes
+echo ""
